@@ -6,14 +6,25 @@ const categoryKey = (project) => project.category.includes('Commercial') || proj
 const projectImages = (project) => (project.photos?.length ? project.photos : [placeholderByGroup[project.group] || 'assets/project-residential.svg']);
 const watermarkedImage = (source, name) => `<div class="project-image"><img src="${source}" alt="${name}"><img class="image-watermark" src="Rexman_Logo.png" alt="" aria-hidden="true"></div>`;
 const projectCard = (project, index) => {
-  const images = projectImages(project).slice(0, 2);
-  return `<article class="project-card reveal project-data-card ${index === 0 ? 'project-large' : ''}" data-category="${categoryKey(project)}" data-status="${project.status}" data-project-index="${projects.indexOf(project)}"><button class="project-card-button" aria-label="View ${project.name} details"><div class="project-photo project-photo-pair">${images.map((image) => watermarkedImage(image, project.name)).join('')}</div><div class="project-meta"><div><span><i class="category-badge">${project.category}</i><i class="status-badge status-${project.status.toLowerCase()}">${project.status}</i></span><h3>${project.name}</h3><small>${project.location || 'Kenya'}${project.year ? ` · ${project.year}` : ''}</small></div><b>View details ↗</b></div></button></article>`;
+  const image = projectImages(project)[0];
+  return `<article class="project-card reveal project-data-card" data-category="${categoryKey(project)}" data-status="${project.status}" data-project-index="${projects.indexOf(project)}"><button class="project-card-button" aria-label="View ${project.name} details"><div class="project-photo">${watermarkedImage(image, project.name)}</div><div class="project-meta"><div><span><i class="category-badge">${project.category}</i><i class="status-badge status-${project.status.toLowerCase()}">${project.status}</i></span><h3>${project.name}</h3><small>${project.location || 'Kenya'}${project.year ? ` · ${project.year}` : ''}</small></div><b>View details ↗</b></div></button></article>`;
 };
 document.querySelectorAll('[data-projects]').forEach((grid) => {
   const mode = grid.dataset.projects;
   const filtered = mode === 'featured' ? projects.filter((p) => p.group === 'Completed Projects').slice(0, 4) : mode === 'ongoing' ? projects.filter((p) => p.status === 'Ongoing').slice(0, 4) : mode === 'upcoming' ? projects.filter((p) => p.status === 'Upcoming') : projects;
   grid.innerHTML = filtered.map(projectCard).join('');
 });
+const portfolioGroups = document.querySelector('[data-project-groups]');
+const renderPortfolioGroups = (filter = 'all') => {
+  if (!portfolioGroups) return;
+  const filtered = projects.filter((project) => filter === 'all' || filter === categoryKey(project) || filter === project.status);
+  const groups = [...new Set(filtered.map((project) => project.group))];
+  portfolioGroups.innerHTML = groups.map((group, groupIndex) => {
+    const groupProjects = filtered.filter((project) => project.group === group);
+    return `<details class="project-group" ${groupIndex === 0 ? 'open' : ''}><summary><span>${group}</span><b>${groupProjects.length} projects <i>+</i></b></summary><div class="project-grid">${groupProjects.map((project) => projectCard(project, projects.indexOf(project))).join('')}</div></details>`;
+  }).join('');
+  if (typeof observer !== 'undefined') portfolioGroups.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+};
 const modal = document.querySelector('.project-modal');
 const openModal = (project) => {
   document.querySelector('#modal-gallery').innerHTML = projectImages(project).map((photo) => watermarkedImage(photo, project.name)).join('');
@@ -49,6 +60,7 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 
 document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
+renderPortfolioGroups();
 
 document.querySelectorAll('.counter').forEach((counter) => {
   const target = Number(counter.dataset.target);
@@ -69,6 +81,7 @@ document.querySelectorAll('[data-filter]').forEach((button) => {
     document.querySelectorAll('[data-filter]').forEach((item) => item.classList.remove('active'));
     button.classList.add('active');
     const filter = button.dataset.filter;
+    renderPortfolioGroups(filter);
     document.querySelectorAll('.portfolio-grid [data-category]').forEach((card) => {
       card.hidden = filter !== 'all' && filter !== card.dataset.category && filter !== card.dataset.status;
     });

@@ -27,7 +27,7 @@ a { color: inherit; text-decoration: none; }
 .nav-cta span, .button span { font-size: 18px; }
 .menu-toggle { display: none; border: 0; background: none; }
 .hero { height: 690px; position: relative; color: #fff; display: flex; align-items: center; overflow: hidden; }
-.hero-image { position: absolute; inset: 0; background: url("assets/project-commercial.svg") center/cover; }
+.hero-image { position: absolute; inset: 0; background: url("photos/simon-karioki-01.jpeg") center/cover; }
 .hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(9,16,48,.92), rgba(17,29,77,.75) 48%, rgba(9,16,48,.2)); }
 .hero-content { position: relative; padding-top: 78px; }
 .eyebrow { color: var(--orange); font-size: 11px; letter-spacing: .17em; font-weight: 800; margin-bottom: 22px; }
@@ -82,7 +82,8 @@ a { color: inherit; text-decoration: none; }
 .service-card { position: relative; background: #fff; min-height: 245px; padding: 28px 27px; transition: .25s; }
 .service-card:hover { transform: translateY(-5px); box-shadow: 0 16px 35px rgba(22,36,91,.1); }
 .service-number { font-size: 10px; color: #a0a3a8; letter-spacing: .1em; }
-.service-icon { color: var(--orange); font-size: 39px; line-height: 1; margin: 23px 0 16px; }
+.service-icon { color: var(--orange); width: 42px; height: 42px; margin: 20px 0 16px; }
+.service-icon svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .service-card h3 { font-size: 18px; }
 .service-card p { font-size: 13px; color: var(--muted); max-width: 245px; margin-top: 9px; }
 .service-card > a:not(.card-action) { position: absolute; right: 25px; bottom: 25px; color: var(--orange); font-size: 22px; }
@@ -93,12 +94,14 @@ a { color: inherit; text-decoration: none; }
 .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 45px 18px; }
 .project-large { grid-column: span 2; }
 .project-photo { height: 295px; background-position: center; background-size: cover; transition: .5s; }
-.project-photo-pair { display: grid; grid-template-columns: repeat(2, 1fr); gap: 3px; background: var(--navy); }
+.project-photo-pair { background: var(--navy); }
 .project-image { position: relative; min-width: 0; overflow: hidden; background: #dfe3e8; }
-.project-image > img:first-child { display: block; width: 100%; height: 100%; min-height: 160px; object-fit: cover; }
+.project-image > img:first-child { display: block; width: 100%; height: 100%; min-height: 160px; object-fit: contain; background: #eef0f4; }
 .image-watermark { position: absolute; z-index: 1; width: 31%; height: auto !important; min-height: 0 !important; object-fit: contain !important; opacity: .28; right: 10px; bottom: 10px; filter: brightness(0) invert(1); pointer-events: none; }
 .project-large .project-photo { height: 490px; }
-.project-card { overflow: hidden; }
+.project-card { overflow: hidden; border: 1px solid #dfe2e8; background: #fff; transition: transform .25s, box-shadow .25s, background .25s; }
+.project-card:nth-child(even) { background: #f7f8fa; }
+.project-card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(22,36,91,.12); }
 .project-card-button { display: block; width: 100%; border: 0; padding: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; font: inherit; }
 .project-card-button small { display: block; color: var(--muted); font-size: 11px; margin-top: 6px; }
 .category-badge, .status-badge { display: inline-block; font-style: normal; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
@@ -107,12 +110,21 @@ a { color: inherit; text-decoration: none; }
 .status-ongoing { background: #fff2dc; color: #a76300; }
 .status-upcoming { background: #e8ecfb; color: var(--navy); }
 .project-card:hover .project-photo { transform: scale(1.025); }
-.project-meta { display: flex; justify-content: space-between; gap: 15px; padding-top: 17px; }
+.project-meta { display: flex; justify-content: space-between; gap: 15px; padding: 16px 18px 19px; border-top: 3px solid var(--orange); }
 .project-meta span { font-size: 10px; letter-spacing: .13em; color: #888c95; }
 .project-meta h3 { font-size: 20px; margin-top: 6px; }
 .project-meta > b { font-size: 10px; white-space: nowrap; text-transform: uppercase; color: var(--orange); padding-top: 4px; }
 .profile-categories { display: flex; flex-wrap: wrap; gap: 9px; margin: -25px 0 45px; }
 .profile-categories span { padding: 9px 12px; border: 1px solid #e1e2e1; color: var(--muted); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+.project-group { border-top: 1px solid #dfe1e5; }
+.project-group:last-child { border-bottom: 1px solid #dfe1e5; }
+.project-group summary { display: flex; justify-content: space-between; align-items: center; padding: 24px 4px; cursor: pointer; list-style: none; color: var(--navy); font: 800 18px Manrope; }
+.project-group summary::-webkit-details-marker { display: none; }
+.project-group summary b { color: var(--muted); font: 700 11px "DM Sans"; text-transform: uppercase; letter-spacing: .08em; }
+.project-group summary i { display: inline-block; margin-left: 12px; color: var(--orange); font-size: 18px; font-style: normal; transition: transform .2s; }
+.project-group[open] summary i { transform: rotate(45deg); }
+.project-group .project-grid { padding: 0 0 45px; }
+.project-group .project-card.reveal { opacity: 1; transform: none; }
 .page-header { position: relative; top: 0; }
 .page-hero { background: var(--navy); color: #fff; padding: 170px 0 90px; }
 .page-hero h1 { font: 800 clamp(48px, 7vw, 88px)/1.04 Manrope; letter-spacing: -.055em; }
@@ -181,8 +193,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--orange); }
   .page-header .site-nav { display: flex; gap: 16px; }
   .page-header .site-nav .nav-cta { display: none; }
   .page-hero { padding: 95px 0 65px; }
-  .brand { width: 145px; height: 58px; }
-  .brand img { width: 145px; top: -14px; }
+  .brand { width: 130px; height: 100px; }
+  .brand img { width: 110px; top: 0px; }
   .menu-toggle { display: flex; flex-direction: column; gap: 5px; }
   .menu-toggle span { width: 25px; height: 2px; background: var(--navy); }
   .site-nav { display: none; position: absolute; top: 75px; left: 0; right: 0; background: #fff; padding: 24px 20px; flex-direction: column; align-items: flex-start; gap: 18px; box-shadow: 0 8px 20px #16245b1c; }
