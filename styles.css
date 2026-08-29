@@ -7,6 +7,7 @@
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+html, body { max-width: 100%; overflow-x: hidden; }
 body { margin: 0; color: var(--ink); background: #fff; font-family: "DM Sans", sans-serif; line-height: 1.5; }
 h1, h2, h3, h4, p { margin: 0; }
 h1, h2, h3, h4 { font-family: Manrope, sans-serif; }
@@ -27,7 +28,10 @@ a { color: inherit; text-decoration: none; }
 .nav-cta span, .button span { font-size: 18px; }
 .menu-toggle { display: none; border: 0; background: none; }
 .hero { height: 690px; position: relative; color: #fff; display: flex; align-items: center; overflow: hidden; }
-.hero-image { position: absolute; inset: 0; background: url("photos/simon-karioki-01.jpeg") center/cover; }
+.hero-image { position: absolute; inset: 0; background: url("photos/hero%20photos/st-bakhita-kitengela-entry.jpeg") center/cover; transition: opacity .7s ease, background-image .7s ease; }
+.hero-image.is-changing { opacity: .2; }
+.hero-slide-text { transition: opacity .35s ease, transform .35s ease; }
+.hero-slide-text.is-changing { opacity: 0; transform: translateY(10px); }
 .hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(9,16,48,.92), rgba(17,29,77,.75) 48%, rgba(9,16,48,.2)); }
 .hero-content { position: relative; padding-top: 78px; }
 .eyebrow { color: var(--orange); font-size: 11px; letter-spacing: .17em; font-weight: 800; margin-bottom: 22px; }
@@ -47,7 +51,7 @@ a { color: inherit; text-decoration: none; }
 .scroll-cue span { color: var(--orange); font-size: 16px; margin-top: 10px; }
 .stats { background: var(--orange); color: #fff; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
-.stat { padding: 25px 30px; border-left: 1px solid rgba(255,255,255,.25); display: flex; flex-direction: column; }
+.stat { min-width: 0; padding: 25px 30px; border-left: 1px solid rgba(255,255,255,.25); display: flex; flex-direction: column; }
 .stat:first-child { border: 0; }
 .stat strong { font: 800 31px Manrope; }
 .stat strong span { font-size: 22px; }
@@ -93,9 +97,9 @@ a { color: inherit; text-decoration: none; }
 .card-action span { font-size: 18px; margin-left: 10px; }
 .project-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 45px 18px; }
 .project-large { grid-column: span 2; }
-.project-photo { height: 295px; background-position: center; background-size: cover; transition: .5s; }
+.project-photo { width: 100%; height: 295px; aspect-ratio: 16 / 10; overflow: hidden; background-position: center; background-size: cover; transition: .5s; }
 .project-photo-pair { background: var(--navy); }
-.project-image { position: relative; min-width: 0; overflow: hidden; background: #dfe3e8; }
+.project-image { position: relative; width: 100%; height: 100%; min-width: 0; overflow: hidden; background: #dfe3e8; }
 .project-image > img:first-child { display: block; width: 100%; height: 100%; min-height: 160px; object-fit: contain; background: #eef0f4; }
 .image-watermark { position: absolute; z-index: 1; width: 31%; height: auto !important; min-height: 0 !important; object-fit: contain !important; opacity: .28; right: 10px; bottom: 10px; filter: brightness(0) invert(1); pointer-events: none; }
 .project-large .project-photo { height: 490px; }
@@ -225,7 +229,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--orange); }
   .service-icon { margin: 20px 0 13px; }
   .project-grid { grid-template-columns: 1fr; gap: 35px; }
   .project-large { grid-column: span 1; }
-  .project-photo, .project-large .project-photo { height: 260px; }
+  .project-photo, .project-large .project-photo { height: 260px; aspect-ratio: 16 / 10; }
   .modal-dialog { grid-template-columns: 1fr; max-height: 88vh; }
   .modal-gallery { max-height: 260px; }
   .modal-gallery .project-image { min-height: 160px; max-height: 260px; }
