@@ -2,7 +2,7 @@ const menuButton = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.site-nav');
 const projects = window.REXMAN_PROJECTS || [];
 const placeholderByGroup = { "Completed Projects": "assets/project-residential.svg", "Commercial & Corporate Projects": "assets/project-commercial.svg", "Renovation & Refurbishment Projects": "assets/project-renovation.svg", "Ongoing Projects": "assets/project-residential.svg", "Upcoming Projects": "assets/project-fitout.svg" };
-const categoryKey = (project) => project.category.includes('Commercial') || project.category.includes('Office') ? 'Commercial' : project.category.includes('Fit-Out') ? 'Fit-Outs' : project.category.includes('Renovation') || project.category.includes('Exterior') ? 'Renovations' : 'Residential';
+const categoryKey = (project) => project.category.includes('Commercial') || project.category.includes('Office') || project.category.includes('Institutional') ? 'Commercial' : project.category.includes('Fit-Out') ? 'Fit-Outs' : project.category.includes('Renovation') || project.category.includes('Exterior') ? 'Renovations' : 'Residential';
 const projectImages = (project) => (project.photos?.length ? project.photos : [placeholderByGroup[project.group] || 'assets/project-residential.svg']);
 const watermarkedImage = (source, name) => `<div class="project-image"><img src="${source}" alt="${name}"><img class="image-watermark" src="Rexman_Logo.png" alt="" aria-hidden="true"></div>`;
 const projectCard = (project, index) => {
@@ -11,7 +11,7 @@ const projectCard = (project, index) => {
 };
 document.querySelectorAll('[data-projects]').forEach((grid) => {
   const mode = grid.dataset.projects;
-  const filtered = mode === 'featured' ? projects.filter((p) => p.group === 'Completed Projects').slice(0, 4) : mode === 'ongoing' ? projects.filter((p) => p.status === 'Ongoing').slice(0, 4) : mode === 'upcoming' ? projects.filter((p) => p.status === 'Upcoming') : projects;
+  const filtered = mode === 'featured' ? projects.filter((p) => p.group === 'Completed Projects').slice(0, 6) : mode === 'ongoing' ? projects.filter((p) => p.status === 'Ongoing').slice(0, 4) : mode === 'upcoming' ? projects.filter((p) => p.status === 'Upcoming') : projects;
   grid.innerHTML = filtered.map(projectCard).join('');
 });
 const portfolioGroups = document.querySelector('[data-project-groups]');
@@ -21,7 +21,8 @@ const renderPortfolioGroups = (filter = 'all') => {
   const groups = [...new Set(filtered.map((project) => project.group))];
   portfolioGroups.innerHTML = groups.map((group, groupIndex) => {
     const groupProjects = filtered.filter((project) => project.group === group);
-    return `<details class="project-group" ${groupIndex === 0 ? 'open' : ''}><summary><span>${group}</span><b>${groupProjects.length} projects <i>+</i></b></summary><div class="project-grid">${groupProjects.map((project) => projectCard(project, projects.indexOf(project))).join('')}</div></details>`;
+    const isOpen = filter !== 'all' || groupIndex === 0;
+    return `<details class="project-group" ${isOpen ? 'open' : ''}><summary><span>${group}</span><b>${groupProjects.length} ${groupProjects.length === 1 ? 'project' : 'projects'} <i>+</i></b></summary><div class="project-grid">${groupProjects.map((project) => projectCard(project, projects.indexOf(project))).join('')}</div></details>`;
   }).join('');
   if (typeof observer !== 'undefined') portfolioGroups.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
 };
